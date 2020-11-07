@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import PopupInput from './PopupInput';
+import Input from './Input';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
 import PopupWithForm from './PopupWithForm';
 
@@ -31,10 +31,10 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isSending }) {
       isValid={isValid}
       buttonText={isSending ? 'Сохранение...' : 'Сохранить'}
     >
-      <PopupInput
+      <Input
         value={values.avatar}
         changeValue={handleChange}
-        className="popup__input_type_place-image"
+        classBlock="popup"
         name="avatar"
         type="url"
         placeholder="Ссылка на картинку"

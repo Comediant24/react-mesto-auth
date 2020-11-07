@@ -12,7 +12,6 @@
 @import url(./__places-title/popup__places-title.css);
 @import url(./__input/_type/popup__input_type_error.css);
 @import url(./__error/popup__error.css);
-@import url(./__error/_visible/popup__error_visible.css);
 @import url(./__delete-button/popup__delete-button.css);
 
 .popup {

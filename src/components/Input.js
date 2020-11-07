@@ -1,8 +1,8 @@
 import React from 'react';
 
-const PopupInput = ({
+const Input = ({
   changeValue,
-  className,
+  classBlock,
   name,
   value,
   validationMessage,
@@ -16,16 +16,16 @@ const PopupInput = ({
     <>
       <input
         {...rest}
-        className={`popup__input ${className}`}
+        className={`input ${classBlock}__input ${classBlock}__input_type_${name}`}
         name={name}
         onChange={handleInputChange}
         value={value || ''}
       />
-      <span className="popup__error popup__error_visible">
+      <span className={`input__error ${classBlock}__error`}>
         {validationMessage || ''}
       </span>
     </>
   );
 };
 
-export default PopupInput;
+export default Input;

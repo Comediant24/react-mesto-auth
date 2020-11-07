@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
-import PopupInput from './PopupInput';
+import Input from './Input';
 import PopupWithForm from './PopupWithForm';
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace, isSending }) {
@@ -31,10 +31,10 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isSending }) {
       isValid={isValid}
       buttonText={isSending ? 'Сохранение...' : 'Сохранить'}
     >
-      <PopupInput
+      <Input
         value={values.name}
         changeValue={handleChange}
-        className="popup__input_type_places-name"
+        classBlock="popup"
         name="name"
         type="text"
         placeholder="Название"
@@ -44,10 +44,10 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isSending }) {
         autoComplete="off"
         validationMessage={errors.name}
       />
-      <PopupInput
+      <Input
         value={values.link}
         changeValue={handleChange}
-        className="popup__input_type_place-image"
+        classBlock="popup"
         name="link"
         type="url"
         placeholder="Ссылка на картинку"

@@ -1,7 +1,7 @@
 import React, { createRef, useContext, useEffect } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
-import PopupInput from './PopupInput';
+import Input from './Input';
 import PopupWithForm from './PopupWithForm';
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSending }) {
@@ -42,10 +42,10 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSending }) {
       isValid={isValid}
       buttonText={isSending ? 'Сохранение...' : 'Сохранить'}
     >
-      <PopupInput
+      <Input
         value={values.name}
         changeValue={handleChange}
-        className="popup__input_type_profile-name"
+        classBlock="popup"
         name="name"
         type="text"
         placeholder="Ваше имя"
@@ -55,10 +55,10 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSending }) {
         autoComplete="off"
         validationMessage={errors.name}
       />
-      <PopupInput
+      <Input
         value={values.about}
         changeValue={handleChange}
-        className="popup__input_type_profile-status"
+        classBlock="popup"
         name="about"
         type="text"
         placeholder="Профессия"
