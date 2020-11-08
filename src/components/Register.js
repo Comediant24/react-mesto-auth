@@ -1,5 +1,6 @@
 import React from 'react';
 import AuthForm from './AuthForm';
+import InfoTooltip from './InfoTooltip';
 
 const Register = () => {
   const handleSubmit = (e, registerForm) => {
@@ -16,6 +17,7 @@ const Register = () => {
         loginLink={true}
         onSubmit={handleSubmit}
       />
+      <InfoTooltip isFail={false} isOpen={false} />
     </div>
   );
 };
