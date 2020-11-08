@@ -13,7 +13,7 @@ const Input = ({
   }
 
   return (
-    <>
+    <div className={`input__container ${classBlock}__input-container`}>
       <input
         {...rest}
         className={`input ${classBlock}__input ${classBlock}__input_type_${name}`}
@@ -24,7 +24,7 @@ const Input = ({
       <span className={`input__error ${classBlock}__error`}>
         {validationMessage || ''}
       </span>
-    </>
+    </div>
   );
 };
 

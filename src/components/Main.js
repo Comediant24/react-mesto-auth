@@ -15,7 +15,7 @@ function Main({
   const { name, about, avatar } = React.useContext(CurrentUserContext);
 
   return (
-    <main className="content">
+    <>
       <section className="profile">
         <button
           type="button"
@@ -75,7 +75,7 @@ function Main({
           )}
         </ul>
       </section>
-    </main>
+    </>
   );
 }
 
