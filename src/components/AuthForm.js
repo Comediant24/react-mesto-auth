@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
 import Input from './Input';
 
-const Signup = () => {
+const AuthForm = ({
+  className,
+  title = 'Заголовок формы',
+  buttonText = 'Сабмит формы',
+  loginLink,
+  onSubmit,
+}) => {
   const {
     values,
     handleChange,
@@ -12,9 +18,24 @@ const Signup = () => {
     resetForm,
   } = useFormWithValidation();
 
+  useEffect(() => {
+    setIsValid(false);
+  }, [setIsValid]);
+
+  const handleSubmit = (e) => {
+    onSubmit(e, values);
+    resetForm();
+  };
+
   return (
-    <form className="auth-form">
-      <h3 className="auth-form__title">Регистрация</h3>
+    <form
+      className={`auth-form ${className}`}
+      onSubmit={handleSubmit}
+      name={className}
+      action="#"
+      noValidate
+    >
+      <h3 className="auth-form__title">{title}</h3>
       <fieldset className="auth-form__container">
         <Input
           value={values.email}
@@ -35,18 +56,25 @@ const Signup = () => {
           type="password"
           placeholder="Пароль"
           required
-          minLength="5"
-          maxLength="40"
           autoComplete="off"
           validationMessage={errors.password}
         />
       </fieldset>
-      <button className="button auth-form__button">Зарегистрироваться</button>
+      <button
+        type="submit"
+        aria-label="Отправить данные"
+        className={`button auth-form__button auth-form__button_submit ${
+          isValid ? '' : 'auth-form__button_submit_disabled'
+        }`}
+        disabled={!isValid}
+      >
+        {buttonText}
+      </button>
       <a href="/#" className="link auth-form__is-login-link">
-        Уже зарегестрированны? Войти
+        {loginLink ? 'Уже зарегестрированны? Войти' : ''}
       </a>
     </form>
   );
 };
 
-export default Signup;
+export default AuthForm;

@@ -50,7 +50,7 @@
   line-height: 1.25;
 }
 
-.auth-form__button {
+.auth-form__button_submit {
   border: none;
   margin-top: 216px;
   width: 100%;
@@ -63,6 +63,11 @@
   line-height: 22px;
   text-align: center;
   color: #000000;
+}
+
+.auth-form__button_submit_disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .auth-form__button:hover {

@@ -9,7 +9,9 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import PopupWithForm from './PopupWithForm';
-import Signup from './Signup';
+import AuthForm from './AuthForm';
+import Register from './Register';
+import Login from './Login';
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -146,7 +148,8 @@ function App() {
               onCardDelete={handleCardDeleteRequest}
               isCardsLoading={isCardsLoading}
             /> */}
-            <Signup />
+            {/* <Register /> */}
+            <Login />
           </main>
           <Footer />
 
