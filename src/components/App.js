@@ -12,6 +12,7 @@ import PopupWithForm from './PopupWithForm';
 import AuthForm from './AuthForm';
 import Register from './Register';
 import Login from './Login';
+import { Route, Switch } from 'react-router-dom';
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -138,18 +139,26 @@ function App() {
         <CurrentUserContext.Provider value={currentUser}>
           <Header />
           <main className="content">
-            {/* <Main
-              onEditAvatar={handleEditAvatarClick}
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onCardClick={handleCardClick}
-              cards={cards}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDeleteRequest}
-              isCardsLoading={isCardsLoading}
-            /> */}
-            {/* <Register /> */}
-            <Login />
+            <Switch>
+              <Route exact path="/">
+                <Main
+                  onEditAvatar={handleEditAvatarClick}
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onCardClick={handleCardClick}
+                  cards={cards}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDeleteRequest}
+                  isCardsLoading={isCardsLoading}
+                />
+              </Route>
+              <Route path="/sign-up">
+                <Register />
+              </Route>
+              <Route path="/sign-in">
+                <Login />
+              </Route>
+            </Switch>
           </main>
           <Footer />
 
