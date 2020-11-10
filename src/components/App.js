@@ -9,10 +9,10 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import PopupWithForm from './PopupWithForm';
-import AuthForm from './AuthForm';
 import Register from './Register';
 import Login from './Login';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -25,6 +25,7 @@ function App() {
   const [isDeletteReqPopupOpen, setIsDeletteReqPopupOpen] = useState(false);
   const [isCardsLoading, setIsCardsLoading] = useState(false);
   const [isDataSending, setDataSending] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     setIsCardsLoading(true);
@@ -140,7 +141,7 @@ function App() {
           <Header />
           <main className="content">
             <Switch>
-              <Route exact path="/">
+              <ProtectedRoute exact path="/">
                 <Main
                   onEditAvatar={handleEditAvatarClick}
                   onEditProfile={handleEditProfileClick}
@@ -151,12 +152,15 @@ function App() {
                   onCardDelete={handleCardDeleteRequest}
                   isCardsLoading={isCardsLoading}
                 />
-              </Route>
+              </ProtectedRoute>
               <Route path="/sign-up">
                 <Register />
               </Route>
               <Route path="/sign-in">
                 <Login />
+              </Route>
+              <Route exact path="/">
+                {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
               </Route>
             </Switch>
           </main>
