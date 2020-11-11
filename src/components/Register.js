@@ -1,11 +1,11 @@
 import React from 'react';
 import AuthForm from './AuthForm';
-import InfoTooltip from './InfoTooltip';
 
-const Register = () => {
+const Register = ({ onRegister }) => {
   const handleSubmit = (e, registerForm) => {
     e.preventDefault();
-    console.log(registerForm);
+    const { email, password } = registerForm;
+    onRegister(email, password);
   };
 
   return (
@@ -17,7 +17,6 @@ const Register = () => {
         loginLink={true}
         onSubmit={handleSubmit}
       />
-      <InfoTooltip isFail={false} isOpen={false} />
     </div>
   );
 };

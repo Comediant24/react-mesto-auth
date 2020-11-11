@@ -11,8 +11,10 @@ import AddPlacePopup from './AddPlacePopup';
 import PopupWithForm from './PopupWithForm';
 import Register from './Register';
 import Login from './Login';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
+import InfoTooltip from './InfoTooltip';
+import * as auth from '../utils/auth';
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -26,6 +28,11 @@ function App() {
   const [isCardsLoading, setIsCardsLoading] = useState(false);
   const [isDataSending, setDataSending] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
+  const [isInfoTooltipTypeSuccess, setIsInfoTooltipTypeSuccess] = useState(
+    false
+  );
+  const history = useHistory();
 
   useEffect(() => {
     setIsCardsLoading(true);
@@ -94,6 +101,7 @@ function App() {
     setEditAvatarPopupOpen(false);
     setSelectedCard({});
     setIsDeletteReqPopupOpen(false);
+    setIsInfoTooltipPopupOpen(false);
   }
 
   function handleUpdateUser(user) {
@@ -134,6 +142,24 @@ function App() {
     };
   }, []);
 
+  function handleRegisterSubmit(email, password) {
+    console.log('handleRegisterSubmit -> email, password', email, password);
+    auth
+      .register(email, password)
+      .then((res) => {
+        if (res) {
+          setIsInfoTooltipPopupOpen(true);
+          setIsInfoTooltipTypeSuccess(true);
+          history.push('/sign-in');
+        }
+      })
+      .catch((err) => {
+        setIsInfoTooltipPopupOpen(true);
+        setIsInfoTooltipTypeSuccess(false);
+        console.log(err);
+      });
+  }
+
   return (
     <div className="root">
       <div className="page">
@@ -154,7 +180,7 @@ function App() {
                 />
               </ProtectedRoute>
               <Route path="/sign-up">
-                <Register />
+                <Register onRegister={handleRegisterSubmit} />
               </Route>
               <Route path="/sign-in">
                 <Login />
@@ -165,6 +191,12 @@ function App() {
             </Switch>
           </main>
           <Footer />
+
+          <InfoTooltip
+            isSuccess={isInfoTooltipTypeSuccess}
+            isOpen={isInfoTooltipPopupOpen}
+            onClose={closeAllPopups}
+          />
 
           <EditAvatarPopup
             isSending={isDataSending}

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
 import Input from './Input';
 
@@ -45,7 +46,7 @@ const AuthForm = ({
           type="email"
           placeholder="Email"
           required
-          autoComplete="off"
+          // autoComplete="off"
           validationMessage={errors.email}
         />
         <Input
@@ -70,9 +71,9 @@ const AuthForm = ({
       >
         {buttonText}
       </button>
-      <a href="/#" className="link auth-form__is-login-link">
+      <Link to="/sign-in" className="link auth-form__is-login-link">
         {loginLink ? 'Уже зарегестрированны? Войти' : ''}
-      </a>
+      </Link>
     </form>
   );
 };
