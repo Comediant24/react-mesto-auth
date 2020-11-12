@@ -1,10 +1,11 @@
 import React from 'react';
 import AuthForm from './AuthForm';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const handleSubmit = (e, registerForm) => {
     e.preventDefault();
-    console.log(registerForm);
+    const { email, password } = registerForm;
+    onLogin(email, password);
   };
 
   return (

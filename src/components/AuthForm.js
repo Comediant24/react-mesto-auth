@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { createRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
 import Input from './Input';
@@ -19,9 +19,10 @@ const AuthForm = ({
     resetForm,
   } = useFormWithValidation();
 
+  const valid = createRef();
   useEffect(() => {
-    setIsValid(false);
-  }, [setIsValid]);
+    setIsValid(valid.current.checkValidity());
+  }, [setIsValid, valid]);
 
   const handleSubmit = (e) => {
     onSubmit(e, values);
@@ -30,6 +31,7 @@ const AuthForm = ({
 
   return (
     <form
+      ref={valid}
       className={`auth-form ${className}`}
       onSubmit={handleSubmit}
       name={className}

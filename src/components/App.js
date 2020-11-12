@@ -143,11 +143,10 @@ function App() {
   }, []);
 
   function handleRegisterSubmit(email, password) {
-    console.log('handleRegisterSubmit -> email, password', email, password);
     auth
       .register(email, password)
-      .then((res) => {
-        if (res) {
+      .then((data) => {
+        if (data.jwt) {
           setIsInfoTooltipPopupOpen(true);
           setIsInfoTooltipTypeSuccess(true);
           history.push('/sign-in');
@@ -160,6 +159,18 @@ function App() {
       });
   }
 
+  function handleLoginSubmit(email, password) {
+    auth
+      .authorize(email, password)
+      .then((data) => {
+        if (data.token) {
+          setLoggedIn(true);
+          history.push('/s');
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <div className="root">
       <div className="page">
@@ -167,7 +178,7 @@ function App() {
           <Header />
           <main className="content">
             <Switch>
-              <ProtectedRoute exact path="/">
+              <ProtectedRoute exact path="/" loggedIn={loggedIn}>
                 <Main
                   onEditAvatar={handleEditAvatarClick}
                   onEditProfile={handleEditProfileClick}
@@ -183,9 +194,9 @@ function App() {
                 <Register onRegister={handleRegisterSubmit} />
               </Route>
               <Route path="/sign-in">
-                <Login />
+                <Login onLogin={handleLoginSubmit} />
               </Route>
-              <Route exact path="/">
+              <Route>
                 {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
               </Route>
             </Switch>
