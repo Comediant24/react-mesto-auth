@@ -10,10 +10,11 @@ export const register = (email, password) => {
     body: JSON.stringify({ password, email }),
   })
     .then((res) => {
+      if (res.status === 400)
+        return Promise.reject('некорректно заполнено одно из полей');
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject(`Error ${res.status}`);
     })
     .then((res) => {
       return res;
@@ -31,16 +32,40 @@ export const authorize = (email, password) => {
     body: JSON.stringify({ password, email }),
   })
     .then((res) => {
+      if (res.status === 400)
+        return Promise.reject('не передано одно из полей');
+      if (res.status === 401)
+        return Promise.reject('пользователь с email не найден');
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject(`Error ${res.status}`);
     })
     .then((res) => {
       if (res.token) {
-        localStorage.setItem('token', res.token);
         return res;
       }
     })
+    .catch((err) => console.log(err));
+};
+
+export const getContent = (token) => {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      if (res.status === 400)
+        return Promise.reject('Токен не передан или передан не в том формате');
+      if (res.status === 401)
+        return Promise.reject('Переданный токен некорректен');
+      if (res.ok) {
+        return res.json();
+      }
+    })
+    .then((data) => data)
     .catch((err) => console.log(err));
 };

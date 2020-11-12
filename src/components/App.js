@@ -164,12 +164,28 @@ function App() {
       .authorize(email, password)
       .then((data) => {
         if (data.token) {
+          localStorage.setItem('token', data.token);
           setLoggedIn(true);
           history.push('/s');
         }
       })
       .catch((err) => console.log(err));
   }
+
+  function tokenCheck() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      auth.getContent(token).then((data) => {
+        console.log('tokenCheck -> data', data);
+        setLoggedIn(true);
+        history.push('/');
+      });
+    }
+  }
+
+  useEffect(() => {
+    tokenCheck();
+  }, []);
 
   return (
     <div className="root">
