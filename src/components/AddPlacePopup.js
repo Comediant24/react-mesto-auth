@@ -1,16 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { createRef, useEffect } from 'react';
 import { useFormWithValidation } from '../hooks/useFormWithValidation';
 import Input from './Input';
 import PopupWithForm from './PopupWithForm';
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace, isSending }) {
+  const valid = createRef();
   const {
     values,
     handleChange,
     errors,
     isValid,
+    setIsValid,
     resetForm,
   } = useFormWithValidation();
+
+  useEffect(() => {
+    setIsValid(valid.current.checkValidity());
+  }, [setIsValid, valid]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -23,6 +29,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isSending }) {
 
   return (
     <PopupWithForm
+      ref={valid}
       name="add-places"
       title="Новое место"
       isOpen={isOpen}

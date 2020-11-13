@@ -6,7 +6,7 @@ import PopupWithForm from './PopupWithForm';
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSending }) {
   const currentUser = useContext(CurrentUserContext);
-  const checkValidity = createRef();
+  const valid = createRef();
   const {
     values,
     handleChange,
@@ -17,8 +17,8 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSending }) {
   } = useFormWithValidation();
 
   useEffect(() => {
-    setIsValid(checkValidity.current.checkValidity());
-  }, [setIsValid, checkValidity]);
+    setIsValid(valid.current.checkValidity());
+  }, [setIsValid, valid]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -33,7 +33,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSending }) {
 
   return (
     <PopupWithForm
-      ref={checkValidity}
+      ref={valid}
       name="edit-profile"
       title="Редактировать профиль"
       isOpen={isOpen}
