@@ -32,7 +32,7 @@ function App() {
   const [isInfoTooltipTypeSuccess, setIsInfoTooltipTypeSuccess] = useState(
     false
   );
-  const [userData, setUserData] = useState({ _id: '', email: '' });
+  const [userEmail, setUserEmail] = useState('');
   const history = useHistory();
 
   useEffect(() => {
@@ -143,7 +143,7 @@ function App() {
     };
   }, []);
 
-  function handleRegisterSubmit(email, password) {
+  function onRegister(email, password) {
     auth
       .register(email, password)
       .then((data) => {
@@ -160,12 +160,13 @@ function App() {
       });
   }
 
-  function handleLoginSubmit(email, password) {
+  function onLogin(email, password) {
     auth
       .authorize(email, password)
       .then((data) => {
         if (data.token) {
           localStorage.setItem('token', data.token);
+          setUserEmail(email);
           setLoggedIn(true);
           history.push('/');
         }
@@ -178,7 +179,7 @@ function App() {
     if (token) {
       auth.getContent(token).then((data) => {
         setLoggedIn(true);
-        setUserData(data);
+        setUserEmail(data.email);
         history.push('/');
       });
     }
@@ -188,7 +189,7 @@ function App() {
     tokenCheck();
   }, []);
 
-  function signOut() {
+  function onSignOut() {
     localStorage.removeItem('token');
     setLoggedIn(false);
     history.push('/sign-in');
@@ -198,7 +199,11 @@ function App() {
     <div className="root">
       <div className="page">
         <CurrentUserContext.Provider value={currentUser}>
-          <Header loggedIn={loggedIn} userData={userData} onClick={signOut} />
+          <Header
+            loggedIn={loggedIn}
+            userEmail={userEmail}
+            onClick={onSignOut}
+          />
           <main className="content">
             <Switch>
               <ProtectedRoute exact path="/" loggedIn={loggedIn}>
@@ -214,10 +219,10 @@ function App() {
                 />
               </ProtectedRoute>
               <Route path="/sign-up">
-                <Register onRegister={handleRegisterSubmit} />
+                <Register onRegister={onRegister} />
               </Route>
               <Route path="/sign-in">
-                <Login onLogin={handleLoginSubmit} />
+                <Login onLogin={onLogin} />
               </Route>
               <Route>
                 {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
