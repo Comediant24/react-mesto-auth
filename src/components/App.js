@@ -32,6 +32,7 @@ function App() {
   const [isInfoTooltipTypeSuccess, setIsInfoTooltipTypeSuccess] = useState(
     false
   );
+  const [userData, setUserData] = useState({ _id: '', email: '' });
   const history = useHistory();
 
   useEffect(() => {
@@ -146,7 +147,7 @@ function App() {
     auth
       .register(email, password)
       .then((data) => {
-        if (data.jwt) {
+        if (data) {
           setIsInfoTooltipPopupOpen(true);
           setIsInfoTooltipTypeSuccess(true);
           history.push('/sign-in');
@@ -176,8 +177,8 @@ function App() {
     const token = localStorage.getItem('token');
     if (token) {
       auth.getContent(token).then((data) => {
-        console.log('tokenCheck -> data', data);
         setLoggedIn(true);
+        setUserData(data);
         history.push('/');
       });
     }
@@ -191,7 +192,7 @@ function App() {
     <div className="root">
       <div className="page">
         <CurrentUserContext.Provider value={currentUser}>
-          <Header />
+          <Header loggedIn={loggedIn} userData={userData} />
           <main className="content">
             <Switch>
               <ProtectedRoute exact path="/" loggedIn={loggedIn}>

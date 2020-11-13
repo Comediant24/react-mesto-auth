@@ -66,6 +66,8 @@ export const getContent = (token) => {
         return res.json();
       }
     })
-    .then((data) => data)
+    .then((res) => {
+      return res.data;
+    })
     .catch((err) => console.log(err));
 };
