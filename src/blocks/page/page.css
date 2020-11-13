@@ -10,5 +10,8 @@ body {
   font-family: Inter, Arial, sans-serif;
   font-style: normal;
   font-weight: normal;
-  color: #FFFFFF;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }

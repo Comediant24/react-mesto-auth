@@ -6,12 +6,6 @@
   opacity: 0.4;
 }
 
-@media screen and (max-width: 900px) {
-  .header__logo {
-    margin-left: 27px;
-  }
-}
-
 @media screen and (max-width: 660px) {
   .header__logo {
     min-width: 104px;

@@ -1,5 +1,7 @@
-.header__auth-list {
+.header__nav {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  gap: 24px;
 }
