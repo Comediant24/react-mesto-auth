@@ -167,7 +167,7 @@ function App() {
         if (data.token) {
           localStorage.setItem('token', data.token);
           setLoggedIn(true);
-          history.push('/s');
+          history.push('/');
         }
       })
       .catch((err) => console.log(err));
@@ -188,11 +188,17 @@ function App() {
     tokenCheck();
   }, []);
 
+  function signOut() {
+    localStorage.removeItem('token');
+    setLoggedIn(false);
+    history.push('/sign-in');
+  }
+
   return (
     <div className="root">
       <div className="page">
         <CurrentUserContext.Provider value={currentUser}>
-          <Header loggedIn={loggedIn} userData={userData} />
+          <Header loggedIn={loggedIn} userData={userData} onClick={signOut} />
           <main className="content">
             <Switch>
               <ProtectedRoute exact path="/" loggedIn={loggedIn}>
