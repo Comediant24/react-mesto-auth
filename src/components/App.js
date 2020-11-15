@@ -37,9 +37,11 @@ function App() {
 
   useEffect(() => {
     setIsCardsLoading(true);
-    api
-      .getInitialCards()
-      .then((cardElements) => setCards(cardElements))
+    Promise.all([api.getInitialCards(), api.getUserInfo()])
+      .then(([cardElements, user]) => {
+        setCards(cardElements);
+        setCurrentUser(user);
+      })
       .catch((err) => console.error(err))
       .finally(() => setIsCardsLoading(false));
   }, []);
@@ -70,15 +72,9 @@ function App() {
         setCards(newCards);
       })
       .then(() => setIsDeletteReqPopupOpen(false))
+      .catch((err) => console.error(err))
       .finally(() => setDataSending(false));
   }
-
-  useEffect(() => {
-    api
-      .getUserInfo()
-      .then((user) => setCurrentUser(user))
-      .catch((err) => console.error(err));
-  }, []);
 
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true);
@@ -111,6 +107,7 @@ function App() {
       .setUserInfo(user)
       .then((update) => setCurrentUser(update))
       .then(() => closeAllPopups())
+      .catch((err) => console.error(err))
       .finally(() => setDataSending(false));
   }
 
@@ -120,6 +117,7 @@ function App() {
       .changeAvatar(avatar)
       .then((update) => setCurrentUser(update))
       .then(() => closeAllPopups())
+      .catch((err) => console.error(err))
       .finally(() => setDataSending(false));
   }
 
@@ -129,6 +127,7 @@ function App() {
       .addCard(card)
       .then((update) => setCards([update, ...cards]))
       .then(() => closeAllPopups())
+      .catch((err) => console.error(err))
       .finally(() => setDataSending(false));
   }
 
@@ -156,6 +155,8 @@ function App() {
       .catch((err) => {
         setIsInfoTooltipPopupOpen(true);
         setIsInfoTooltipTypeSuccess(false);
+        if (err === 400)
+          return console.log('Ошибка: некорректно заполнено одно из полей');
         console.log(err);
       });
   }
@@ -171,17 +172,29 @@ function App() {
           history.push('/');
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err === 400) return console.log('не передано одно из полей');
+        if (err === 401) return console.log('пользователь с email не найден');
+        console.log(err);
+      });
   }
 
   function tokenCheck() {
     const token = localStorage.getItem('token');
     if (token) {
-      auth.getContent(token).then((data) => {
-        setLoggedIn(true);
-        setUserEmail(data.email);
-        history.push('/');
-      });
+      auth
+        .getContent(token)
+        .then((data) => {
+          setLoggedIn(true);
+          setUserEmail(data.email);
+          history.push('/');
+        })
+        .catch((err) => {
+          if (err === 400)
+            return console.log('Токен не передан или передан не в том формате');
+          if (err === 401) return console.log('Переданный токен некорректен');
+          console.log(err);
+        });
     }
   }
 
