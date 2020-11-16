@@ -190,9 +190,9 @@ function App() {
     if (token) {
       auth
         .getContent(token)
-        .then((data) => {
+        .then((userData) => {
           setLoggedIn(true);
-          setUserEmail(data.email);
+          setUserEmail(userData.data.email);
           history.push('/');
         })
         .catch((err) => {
