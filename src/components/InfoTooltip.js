@@ -2,7 +2,7 @@ import React from 'react';
 import success from '../images/success.svg';
 import fail from '../images/fail.svg';
 
-const InfoTooltip = ({ isOpen, isSuccess, onClose }) => {
+const InfoTooltip = ({ message, isOpen, isSuccess, onClose }) => {
   return (
     <section
       className={`infotooltip popup popup_infotooltip ${
@@ -21,11 +21,7 @@ const InfoTooltip = ({ isOpen, isSuccess, onClose }) => {
             isSuccess ? 'infotooltip__image_success' : 'infotooltip__image_fail'
           }`}
         ></img>
-        <h3 className="infotooltip__title">
-          {isSuccess
-            ? 'Вы успешно зарегистрировались!'
-            : 'Что-то пошло не так! Попробуйте ещё раз.'}
-        </h3>
+        <h3 className="infotooltip__title">{message}</h3>
         <button
           className="button popup__close-button popup__close-button_infotooltip"
           type="button"

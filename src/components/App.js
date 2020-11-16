@@ -32,6 +32,7 @@ function App() {
   const [isInfoTooltipTypeSuccess, setIsInfoTooltipTypeSuccess] = useState(
     false
   );
+  const [infoTooltipMessage, setInfoTooltipMessage] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const history = useHistory();
 
@@ -147,12 +148,14 @@ function App() {
       .register(email, password)
       .then((data) => {
         if (data) {
+          setInfoTooltipMessage('Вы успешно зарегистрировались!');
           setIsInfoTooltipPopupOpen(true);
           setIsInfoTooltipTypeSuccess(true);
           history.push('/sign-in');
         }
       })
       .catch((err) => {
+        setInfoTooltipMessage('Что-то пошло не так! Попробуйте ещё раз.');
         setIsInfoTooltipPopupOpen(true);
         setIsInfoTooltipTypeSuccess(false);
         if (err === 400)
@@ -173,6 +176,9 @@ function App() {
         }
       })
       .catch((err) => {
+        setInfoTooltipMessage('Неверный логин или пароль! Попробуйте ещё раз.');
+        setIsInfoTooltipPopupOpen(true);
+        setIsInfoTooltipTypeSuccess(false);
         if (err === 400) return console.log('не передано одно из полей');
         if (err === 401) return console.log('пользователь с email не найден');
         console.log(err);
@@ -245,6 +251,7 @@ function App() {
           <Footer />
 
           <InfoTooltip
+            message={infoTooltipMessage}
             isSuccess={isInfoTooltipTypeSuccess}
             isOpen={isInfoTooltipPopupOpen}
             onClose={closeAllPopups}
